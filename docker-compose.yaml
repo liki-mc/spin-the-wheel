@@ -1,8 +1,8 @@
 services:
-    example-discord-bot:
+    spin-the-wheel-discord-bot:
         build:
             context: .
-        container_name: example-discord-bot
+        container_name: spin-the-wheel-discord-bot
         restart: "no"
         secrets:
           - discord_token
