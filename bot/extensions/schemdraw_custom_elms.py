@@ -75,3 +75,6 @@ if __name__ == "__main__":
     d += CirclePart()
     d += EquilateralTriangle(4)
     d.draw()
+
+async def setup(*args):
+    pass
