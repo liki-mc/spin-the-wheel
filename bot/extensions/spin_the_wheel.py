@@ -18,7 +18,7 @@ def choose(options: list[str]) -> str:
     d = schemdraw.Drawing()
     for i in range(N):
         base_angle = i * alpha + theta
-        d += CirclePart(radius = 5, alpha = alpha, theta = base_angle, fill = hls_to_rgb(i * (N//2 + 1) / N, 0.75, 0.35), color = "white").linewidth(0.2)
+        d += CirclePart(radius = 5, alpha = alpha, theta = base_angle, fill = hls_to_rgb(i * (N//2 + (1 if N != 2 else 0)) / N, 0.75, 0.35), color = "white").linewidth(0.2)
         angle = (i * alpha + theta + alpha / 2) * np.pi / 180
         option_text = options[i]
         if len(option_text) > 25:
