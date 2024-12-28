@@ -5,6 +5,7 @@ from bot.bot import Bot
 from .schemdraw_custom_elms import CirclePart, EquilateralTriangle
 
 from colorsys import hls_to_rgb
+import matplotlib.pyplot as plt
 import numpy as np
 import random
 import schemdraw
@@ -27,6 +28,7 @@ def choose(options: list[str]) -> str:
 
     d += EquilateralTriangle(side_length = 2, fill = "#cccccc", theta = 90).at((5, 0)).linewidth(0.7)
     d.save("wheel.png")
+    plt.close()
 
 class SpinTheWheel(commands.Cog):
     def __init__(self, bot: Bot) -> None:
