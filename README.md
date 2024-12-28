@@ -1,4 +1,6 @@
-# Discord bot template
+# Spin the wheel discord bot
+
+This repository uses a [discord bot template](https://github.com/Tibo-Ulens/discord-bot-template).
 
 See the [discord.py docs](https://discordpy.readthedocs.io/en/stable/) for more info
 
@@ -16,7 +18,6 @@ Install [poetry](https://python-poetry.org/docs/#installation)
 
 Add dependencies with `poetry add <dep>` and make sure they're installed with `poetry install`
 
-## Adding commands
+## Commands
 
-Any file with a setup function for a Cog in the `bot/extensions/` folder will automatically be
-added to the bot on startup
+This bot implements a command `spin` which spins a wheel and chooses a random option. Options for the spin can be seperated using a newline, a semicolon, a comma or using command line syntax.
