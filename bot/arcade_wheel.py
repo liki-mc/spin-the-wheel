@@ -38,7 +38,6 @@ class Text(arcade.Text):
 class SpinTheWheel(arcade.Window):
     def __init__(self, options: list[str]):
         super().__init__(WIDTH, HEIGHT, "Spin the Wheel")
-        arcade.set_background_color(arcade.color.WHITE)
         self.wheel_angle = 0
         self.frames = []
         self.options = options
@@ -57,7 +56,7 @@ class SpinTheWheel(arcade.Window):
         x_points = np.append(x_points, x)
         y_points = np.append(y_points, y)
         points = list(zip(x_points, y_points))
-        return arcade.create_polygon(points, color), arcade.create_line_loop(points, arcade.color.WHITE, line_width = 3)
+        return arcade.create_polygon(points, color), arcade.create_line_strip((points[0], (x, y), points[-1]), arcade.color.WHITE, line_width = 3)
 
     def setup_triangle(self):
         angles = np.linspace(0, 360, 4)[:3] + 180
