@@ -8,16 +8,14 @@ See the [discord.py docs](https://discordpy.readthedocs.io/en/stable/) for more 
 
 Make a file called `discord_token.txt` in the folder `secrets/` and paste your discord token into it.
 
-Run `docker compose up --build` to start the bot.
-
-## Managing dependencies
-
 Create and activate a venv with `python -m venv venv` and `source venv/bin/activate`.
 
-Install [poetry](https://python-poetry.org/docs/#installation)
+Install the requirements with `pip install -r requirements.txt`.
 
-Add dependencies with `poetry add <dep>` and make sure they're installed with `poetry install`
+This library requires ffmpeg to be installed on your system. On linux you can install it with `sudo apt install ffmpeg`.
+
+Run `python -m bot` to start the bot.
 
 ## Commands
 
-This bot implements a command `spin` which spins a wheel and chooses a random option. Options for the spin can be seperated using a newline, a semicolon, a comma or using command line syntax.
+This bot implements a command `spin` and `quickspin` which both spin a wheel and chooses a random option. Options for the spin can be seperated using a newline, a semicolon, a comma or using command line syntax.
