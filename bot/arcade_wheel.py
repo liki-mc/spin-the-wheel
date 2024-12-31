@@ -56,7 +56,7 @@ class SpinTheWheel(arcade.Window):
         x_points = np.append(x_points, x)
         y_points = np.append(y_points, y)
         points = list(zip(x_points, y_points))
-        return arcade.create_polygon(points, color), arcade.create_line_strip((points[0], (x, y), points[-1]), arcade.color.WHITE, line_width = 3)
+        return arcade.create_polygon(points, color), arcade.create_line_strip((points[0], (x, y), points[-2]), arcade.color.WHITE, line_width = 3)
 
     def setup_triangle(self):
         angles = np.linspace(0, 360, 4)[:3] + 180
@@ -139,7 +139,7 @@ class SpinTheWheel(arcade.Window):
         self.close()
 
 def main():
-    window = SpinTheWheel(["heyodjiazejoisdijfiejzaoifjeziaojfoeiazjejehyo", "12", "&&&"])
+    window = SpinTheWheel(["Herspinnen", "Niet herspinnen"])
     window.run()
 
 if __name__ == "__main__":
