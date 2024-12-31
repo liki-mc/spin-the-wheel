@@ -1,18 +1,18 @@
 from discord import app_commands, Interaction, Message
-from discord.ext.commands import Cog
+from discord.ext import commands
 
 from bot.bot import Bot
 
 
-class Example(Cog):
+class Example(commands.Cog):
     def __init__(self, bot: Bot) -> None:
         self.bot = bot
 
-    @app_commands.command(name="example")
-    async def example(self, ia: Interaction):
-        return await ia.response.send_message("example command")
-
-    @Cog.listener("on_message")
+    @commands.command()
+    async def ping(self, ctx: commands.Context):
+        await ctx.send("pong")
+        
+    @commands.Cog.listener("on_message")
     async def example_listener(self, msg: Message):
         """
         https://discordpy.readthedocs.io/en/stable/api.html#event-reference for a list of events

@@ -138,61 +138,9 @@ class SpinTheWheel(arcade.Window):
         self.save_video("output.mp4")
         self.close()
 
-def main():
+if __name__ == "__main__":
     window = SpinTheWheel(["Herspinnen", "Niet herspinnen"])
     window.run()
-
-if __name__ == "__main__":
-    main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 async def setup(*args):
     pass
