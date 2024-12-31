@@ -38,7 +38,7 @@ class Text(arcade.Text):
 class SpinTheWheel(arcade.Window):
     def __init__(self, options: list[str]):
         super().__init__(WIDTH, HEIGHT, "Spin the Wheel")
-        self.wheel_angle = 0
+        self.wheel_angle = 0.5
         self.frames = []
         self.options = options
         self.shape_element_list = arcade.ShapeElementList()
@@ -83,7 +83,7 @@ class SpinTheWheel(arcade.Window):
             text = option[:17] + "..." if len(option) > 20 else option
             text_object = Text(
                 text, 
-                i * alpha + alpha / 2
+                i * alpha + alpha / 2 + self.wheel_angle
             )
             self.text_list.append(text_object)
         
@@ -139,9 +139,15 @@ class SpinTheWheel(arcade.Window):
         self.close()
     
 
-def choose(options: list[str], filename: str = "output.mp4") -> str:
+def spin(options: list[str], filename: str = "output.mp4") -> str:
     window = SpinTheWheel(options)
     window.run(filename)
+
+def quickspin(options: list[str], filename: str = "output.png") -> str:
+    window = SpinTheWheel(options)
+    window.on_update(random.randint(0, 359))
+    window.draw_frame()
+    window.save_video(filename)
 
 if __name__ == "__main__":
     window = SpinTheWheel(["Herspinnen", "Niet herspinnen"])
