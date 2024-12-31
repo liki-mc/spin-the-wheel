@@ -38,6 +38,7 @@ class Text(arcade.Text):
 class SpinTheWheel(arcade.Window):
     def __init__(self, options: list[str]):
         super().__init__(WIDTH, HEIGHT, "Spin the Wheel")
+        arcade.set_background_color((49, 51, 56))
         self.wheel_angle = 0.5
         self.frames = []
         self.options = options
