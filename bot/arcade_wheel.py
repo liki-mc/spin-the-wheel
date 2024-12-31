@@ -32,7 +32,7 @@ class Text(arcade.Text):
             np.sin(np.radians(self.current_angle)) * TEXT_SIZE + HEIGHT / 2
         )
 
-class WheelGame(arcade.Window):
+class SpinTheWheel(arcade.Window):
     def __init__(self, options: list[str]):
         super().__init__(WIDTH, HEIGHT, "Spin the Wheel")
         arcade.set_background_color(arcade.color.WHITE)
@@ -96,7 +96,7 @@ class WheelGame(arcade.Window):
         imageio.mimsave(filename, self.frames, fps = 60)
 
 def main():
-    window = WheelGame(["heyodjiazejoisdijfiejzaoifjeziaojfoeiazjejehyo", "12", "&&&"])
+    window = SpinTheWheel(["heyodjiazejoisdijfiejzaoifjeziaojfoeiazjejehyo", "12", "&&&"])
     for _ in range(100):  # Generate 100 frames
         window.on_update()
         window.draw_frame()
