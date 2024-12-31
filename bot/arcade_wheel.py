@@ -6,8 +6,11 @@ import arcade
 from colorsys import hls_to_rgb
 import imageio
 import numpy as np
+import random
+import time
+random.seed(time.time())
 
-SIZE = 450
+SIZE = 350
 TEXT_SIZE = SIZE - 50
 WIDTH = 2 * (SIZE + 50)
 HEIGHT = 2 * (SIZE + 50)
@@ -74,11 +77,11 @@ class SpinTheWheel(arcade.Window):
         self.shape_element_list.center_x = WIDTH / 2
         self.shape_element_list.center_y = HEIGHT / 2
     
-    def on_update(self):
-        self.wheel_angle += 4
+    def on_update(self, angle: float = 4):
+        self.wheel_angle += angle
         self.shape_element_list.angle = self.wheel_angle
         for text in self.text_list:
-            text.rotate_text(4)
+            text.rotate_text(angle)
 
     def draw_frame(self):
         arcade.start_render()
@@ -94,14 +97,35 @@ class SpinTheWheel(arcade.Window):
 
     def save_video(self, filename):
         imageio.mimsave(filename, self.frames, fps = 60)
+    
+    def slow(self):
+        for i in range(13, 0, -1):
+            for _ in range(20 - i):
+                self.on_update(i)
+                self.draw_frame()
+        
+        for i in [2, 3, 4, 5]:
+            for _ in range(20):
+
+                self.on_update(1/i)
+                self.draw_frame()
+        
+        for i in range(20):
+            self.draw_frame()
+    
+    def run(self):
+        for _ in range(random.randint(20, 200)):
+            self.on_update(14)
+            self.draw_frame()
+        
+        self.slow()
+        
+        self.save_video("output.mp4")
+        self.close()
 
 def main():
     window = SpinTheWheel(["heyodjiazejoisdijfiejzaoifjeziaojfoeiazjejehyo", "12", "&&&"])
-    for _ in range(100):  # Generate 100 frames
-        window.on_update()
-        window.draw_frame()
-    window.save_video('output_video.mp4')
-    window.close()
+    window.run()
 
 if __name__ == "__main__":
     main()
