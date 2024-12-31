@@ -45,7 +45,9 @@ class SpinTheWheel(arcade.Window):
         self.shape_element_list = arcade.ShapeElementList()
         self.sprite_list = arcade.SpriteList()
         self.text_list : list[Text] = []
+        self.triangle = arcade.ShapeElementList()
         self.setup(options)
+        self.setup_triangle()
     
     @staticmethod
     def get_arc_filled(x, y, radius, color, start_angle, angle):
@@ -56,6 +58,18 @@ class SpinTheWheel(arcade.Window):
         y_points = np.append(y_points, y)
         points = list(zip(x_points, y_points))
         return arcade.create_polygon(points, color), arcade.create_line_loop(points, arcade.color.WHITE, line_width = 3)
+
+    def setup_triangle(self):
+        angles = np.linspace(0, 360, 4)[:3] + 180
+        dx, dy = np.cos(np.radians(angles)) * 30, np.sin(np.radians(angles)) * 30
+        base_x, base_y = WIDTH / 2 + SIZE + 15, HEIGHT / 2
+        points = list(zip(base_x + dx, base_y + dy))
+        triangle = arcade.create_polygon(points, (204, 204, 204))
+        trangle_outline = arcade.create_line_loop(points, arcade.color.GRAY, 6)
+
+        self.triangle.append(triangle)
+        self.triangle.append(trangle_outline)
+        
     
     def setup(self, options: list[str]) -> None:
         N = len(options)
@@ -88,6 +102,8 @@ class SpinTheWheel(arcade.Window):
         self.shape_element_list.draw()
         for text in self.text_list:
             text.draw()
+        
+        self.triangle.draw()
         self.capture_frame()
 
     def capture_frame(self):
