@@ -128,15 +128,20 @@ class SpinTheWheel(arcade.Window):
         for i in range(20):
             self.draw_frame()
     
-    def run(self):
+    def run(self, filename: str = "output.mp4"):
         for _ in range(random.randint(20, 200)):
             self.on_update(14)
             self.draw_frame()
         
         self.slow()
         
-        self.save_video("output.mp4")
+        self.save_video(filename)
         self.close()
+    
+
+def choose(options: list[str], filename: str = "output.mp4") -> str:
+    window = SpinTheWheel(options)
+    window.run(filename)
 
 if __name__ == "__main__":
     window = SpinTheWheel(["Herspinnen", "Niet herspinnen"])
