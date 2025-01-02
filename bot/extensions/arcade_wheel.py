@@ -20,10 +20,13 @@ def create_circular_image(image_path: str) -> Image:
     # Open the input image
     img = Image.open(image_path).convert("RGBA")
     
+    # Resize the image to fit within a 150x150 pixel box
+    img = img.resize((150, 150), Image.ANTIALIAS)
+    
     # Create a mask to make the image circular
     mask = Image.new("L", img.size, 0)
     draw = ImageDraw.Draw(mask)
-    draw.ellipse((0, 0) + img.size, fill=255)
+    draw.ellipse((0, 0) + img.size, fill = 255)
     
     # Apply the mask to the image
     img.putalpha(mask)
