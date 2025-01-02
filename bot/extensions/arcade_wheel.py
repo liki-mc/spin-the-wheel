@@ -6,6 +6,7 @@ import arcade
 from colorsys import hls_to_rgb
 import imageio
 import numpy as np
+from PIL import Image, ImageDraw
 import random
 import time
 random.seed(time.time())
@@ -14,6 +15,20 @@ SIZE = 350
 TEXT_SIZE = SIZE - 50
 WIDTH = 2 * (SIZE + 50)
 HEIGHT = 2 * (SIZE + 50)
+
+def create_circular_image(image_path: str) -> Image:
+    # Open the input image
+    img = Image.open(image_path).convert("RGBA")
+    
+    # Create a mask to make the image circular
+    mask = Image.new("L", img.size, 0)
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse((0, 0) + img.size, fill=255)
+    
+    # Apply the mask to the image
+    img.putalpha(mask)
+    
+    return img
 
 class Text(arcade.Text):
     def __init__(self, text: str, rotation: float, **kwargs):
@@ -48,6 +63,9 @@ class SpinTheWheel(arcade.Window):
         self.triangle = arcade.ShapeElementList()
         self.setup(options)
         self.setup_triangle()
+        image = create_circular_image("data/avatar.png")
+        texture = arcade.Texture("Avatar", image)
+        self.avatar_sprite = arcade.Sprite(center_x = WIDTH / 2, center_y = HEIGHT / 2, texture = texture)
     
     @staticmethod
     def get_arc_filled(x, y, radius, color, start_angle, angle):
@@ -97,9 +115,12 @@ class SpinTheWheel(arcade.Window):
         for text in self.text_list:
             text.rotate_text(angle)
 
+        self.avatar_sprite.angle = self.wheel_angle
+
     def draw_frame(self):
         arcade.start_render()
         self.shape_element_list.draw()
+        self.avatar_sprite.draw()
         for text in self.text_list:
             text.draw()
         

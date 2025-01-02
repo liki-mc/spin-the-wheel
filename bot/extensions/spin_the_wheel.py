@@ -27,6 +27,10 @@ class SpinTheWheel(commands.Cog):
         else:
             options = args.split()
         
+        avatar = ctx.author.display_avatar
+        with open("data/avatar.png", "wb") as file:
+            await avatar.save(file)
+
         newline = "\n"
         await ctx.send(f"Options: {newline}- {f'{newline}- '.join(options)}")
         await ctx.send("Spinning the wheel...")
@@ -47,6 +51,10 @@ class SpinTheWheel(commands.Cog):
             options = args.split(",")
         else:
             options = args.split()
+        
+        avatar = ctx.author.display_avatar
+        with open("data/avatar.png", "wb") as file:
+            await avatar.save(file)
         
         newline = "\n"
         await ctx.send(f"Options: {newline}- {f'{newline}- '.join(options)}")
