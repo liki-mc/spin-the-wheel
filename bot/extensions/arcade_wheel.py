@@ -4,10 +4,13 @@ os.environ["ARCADE_HEADLESS"] = "True"
 
 import arcade
 from colorsys import hls_to_rgb
+import emoji
 import imageio
+from io import BytesIO
 import numpy as np
 from PIL import Image, ImageDraw
 import random
+import requests
 import time
 random.seed(time.time())
 
@@ -15,6 +18,18 @@ SIZE = 350
 TEXT_SIZE = SIZE - 50
 WIDTH = 2 * (SIZE + 50)
 HEIGHT = 2 * (SIZE + 50)
+
+EMOJIS = "".join(emoji.EMOJI_DATA.keys())
+
+def get_emoji(emoji_char: str) -> Image:
+    code_point = '-'.join(f'{ord(c):x}' for c in emoji_char)
+    url = f"https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/{code_point}.png"
+    response = requests.get(url)
+    if response.status_code != 200:
+        return Image.new("RGBA", (31, 31))
+    img = Image.open(BytesIO(response.content)).convert("RGBA")
+    img = img.resize((31, 31), Image.ANTIALIAS)
+    return img
 
 def create_circular_image(image_path: str) -> Image:
     # Open the input image
@@ -42,8 +57,28 @@ class Text(arcade.Text):
         kwargs["width"] = TEXT_SIZE - 100
         kwargs["anchor_y"] = "center"
         kwargs["rotation"] = rotation + 180
+        text, self.sprites = self.get_emojis(text)
         super().__init__(text, **kwargs)
         self.current_angle = rotation
+    
+    def get_emojis(self, text: str) -> tuple[str, list[tuple[float, arcade.Sprite]]]:
+        if len(text) == 1:
+            if text in EMOJIS:
+                image = get_emoji(text)
+                texture = arcade.Texture(f"Emoji{text}", image.resize((72, 72), Image.ANTIALIAS))
+                sprite = arcade.Sprite(texture = texture)
+                return "    ", [(10, sprite)]
+            
+        sprites = []
+        for i, letter in enumerate(text):
+            if letter in EMOJIS:
+                image = get_emoji(letter)
+                texture = arcade.Texture(f"Emoji{letter}", image)
+                sprite = arcade.Sprite(texture = texture)
+                sprites.append((i * 20, sprite))
+                text = text.replace(letter, f"    ")
+        
+        return text, sprites
     
     def rotate_text(self, angle: float):
         self.current_angle += angle
@@ -52,6 +87,17 @@ class Text(arcade.Text):
             np.cos(np.radians(self.current_angle)) * TEXT_SIZE + WIDTH / 2,
             np.sin(np.radians(self.current_angle)) * TEXT_SIZE + HEIGHT / 2
         )
+        for offset, sprite in self.sprites:
+            sprite.angle = self.current_angle + 180
+            sprite.position = (
+                np.cos(np.radians(self.current_angle)) * (TEXT_SIZE - offset) + WIDTH / 2,
+                np.sin(np.radians(self.current_angle)) * (TEXT_SIZE - offset) + HEIGHT / 2
+            )
+    
+    def draw(self):
+        super().draw()
+        for _, sprite in self.sprites:
+            sprite.draw()
 
 class SpinTheWheel(arcade.Window):
     def __init__(self, options: list[str]):
@@ -175,8 +221,7 @@ def quickspin(options: list[str], filename: str = "output.png") -> str:
     window.save_video(filename)
 
 if __name__ == "__main__":
-    window = SpinTheWheel(["Herspinnen", "Niet herspinnen"])
-    window.run()
+    quickspin(["Herspinnen", "Niet herspinnen", "dsf😭abc😭bla😭", "😭"])
 
 async def setup(*args):
     pass

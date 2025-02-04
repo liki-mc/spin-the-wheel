@@ -4,6 +4,7 @@ from discord.ext import commands
 from bot.bot import Bot
 from .arcade_wheel import spin, quickspin
 
+import emoji
 import re
 import shlex
 
